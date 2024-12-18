@@ -40,7 +40,7 @@ public class SpotPage {
     @FindBy(css = "[data-test='sell-btn']")
     WebElement submitSellButton;
 
-    @FindBy(css = "[data-test='success-message']")
+    @FindBy(css = "[data-test='success-notification']")
     WebElement successMessage;
 
     @FindBy(css = "[data-test='info-notification']")
