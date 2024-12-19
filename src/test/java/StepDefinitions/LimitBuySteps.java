@@ -1,7 +1,6 @@
 package StepDefinitions;
 
-import CommonClasses.DriverManager;
-import CommonClasses.ScenarioContext;
+import BaseClasses.Base;
 import POM.SpotPage;
 import io.cucumber.java.Before;
 import io.cucumber.java.en.And;
@@ -13,11 +12,11 @@ import org.testng.Assert;
 
 import static org.testng.AssertJUnit.assertTrue;
 
-public class LimitBuySteps {
+public class LimitBuySteps extends Base {
     
     SpotPage buyerSpotPage;
     private WebDriver driver;
-
+    String baseUrl = ConfigReader.get("base.url");
     @Before
     public void setUp() {
         driver = DriverManager.getDriver();
@@ -26,8 +25,9 @@ public class LimitBuySteps {
 
     @Given("the buyer navigates to the spot order placement page {string}")
     public void the_buyer_navigates_to_the_spot_order_placement_page(String carbonCredit) {
-        String url = "http://localhost:5173/trade/spot/" + carbonCredit;
-        driver.get(url);
+        //String url = "https://test.exchange.xeptagon.com/trade/spot/" + carbonCredit;
+        driver.get(baseUrl + "/trade/spot/" + carbonCredit);
+
     }
 
     @When("the buyer selects the order type")

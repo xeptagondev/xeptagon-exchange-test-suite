@@ -7,10 +7,12 @@ import com.aventstack.extentreports.reporter.ExtentSparkReporter;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeSuite;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -18,6 +20,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Properties;
 
 public class Base {
     protected static ExtentReports extent;
@@ -71,6 +74,56 @@ public class Base {
             }
         }
         return null;
+    }
+
+    public class ScenarioContext {
+        private static final Map<String, Object> context = new HashMap<>();
+
+        public static void put(String key, Object value) {
+            context.put(key, value);
+        }
+
+        public static Object get(String key) {
+            return context.get(key);
+        }
+    }
+
+    public class DriverManager {
+        private static WebDriver driver;
+
+        // Private constructor to prevent instantiation
+        private DriverManager() {
+        }
+
+        public static WebDriver getDriver() {
+            if (driver == null) {
+                // Initialize the ChromeDriver
+                driver = new ChromeDriver();
+
+                // Set the browser to full-screen
+                driver.manage().window().maximize(); // Or use fullscreen()
+            }
+            return driver;
+        }
+    }
+
+    public class ConfigReader {
+        private static Properties properties;
+
+        static {
+            try {
+                FileInputStream fileInputStream = new FileInputStream("src/test/resources/config.properties");
+                properties = new Properties();
+                properties.load(fileInputStream);
+            } catch (IOException e) {
+                e.printStackTrace();
+                throw new RuntimeException("Failed to load config.properties file!");
+            }
+        }
+
+        public static String get(String key) {
+            return properties.getProperty(key);
+        }
     }
 
     @AfterSuite

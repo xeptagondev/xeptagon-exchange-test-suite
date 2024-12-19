@@ -13,8 +13,8 @@ Feature: Seller Spot Limit Terminated Order Placement
     And user is navigate to market page
 #    And close the browser
     Examples:
-      | email | password |
-      | shehans+EX2@xeptagon.com | EX2@xeptagon.coM |
+      | email                    | password            |
+      | seller.account.email      | seller.account.password |
 
   Scenario Outline: Validate seller account balance before placing limit sell order
     Given seller navigate to the account page

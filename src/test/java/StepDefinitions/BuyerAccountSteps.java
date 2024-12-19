@@ -1,7 +1,6 @@
 package StepDefinitions;
 
-import CommonClasses.DriverManager;
-import CommonClasses.ScenarioContext;
+import BaseClasses.Base;
 import POM.LoginPage;
 import POM.MarketPage;
 import POM.MyAccountPage;
@@ -12,12 +11,13 @@ import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.devtools.v85.dom.model.BackendNode;
 import org.testng.Assert;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class BuyerAccountSteps {
+public class BuyerAccountSteps extends Base {
     //Defined web driver
     private WebDriver driver;
 
@@ -48,6 +48,9 @@ public class BuyerAccountSteps {
     public Double totalBuyAmount;
     public Double remainBlockedAmount;
 
+    String baseUrl = ConfigReader.get("base.url");
+
+
     public BuyerAccountSteps() {
         // Retrieve initial balances from BuyerAccBeforeStep
         this.initialAccountBalances = new HashMap<>(accountBalances);
@@ -65,12 +68,15 @@ public class BuyerAccountSteps {
     @Given("buyer navigate to the account page")
     public void buyer_navigate_to_the_account_page() {
         // Use the provided account page URL
-        driver.get("http://localhost:5173/myAssets/myAccount");
+       // driver.get("https://test.exchange.xeptagon.com/myAssets/myAccount");
+        driver.get(baseUrl + "/myAssets/myAccount");
     }
 
     @When("buyer retrieves the before account balances")
     public void buyer_retrieves_the_before_account_balances() {
-        driver.get("http://localhost:5173/myAssets/myAccount");
+        //driver.get("https://test.exchange.xeptagon.com/myAssets/myAccount");
+
+        driver.get(baseUrl + "/myAssets/myAccount");
 
         // Retrieve balance values before any action
         accountBalances.put("grossBalance", myAccountPage.getGrossBalance());
@@ -90,8 +96,8 @@ public class BuyerAccountSteps {
 
     @Given("buyer retrieve the after account balance")
     public void buyer_retrieve_the_after_account_balance() {
-        driver.get("http://localhost:5173/myAssets/myAccount");
-
+        //driver.get("https://test.exchange.xeptagon.com/myAssets/myAccount");
+        driver.get(baseUrl + "/myAssets/myAccount");
         // Retrieve balance values after the buy order is placed
         newAccountBalances.put("grossBalance", myAccountPage.getGrossBalance());
         newAccountBalances.put("availableBalance", myAccountPage.getAvailableBalance());
@@ -258,8 +264,8 @@ public class BuyerAccountSteps {
 
     @And("buyer retrieve the new buyer account balance after cancelling")
     public void buyer_retrieve_the_new_buyer_account_balance_after_cancelling() {
-        driver.get("http://localhost:5173/myAssets/myAccount");
-
+        //driver.get("https://test.exchange.xeptagon.com/myAssets/myAccount");
+        driver.get(baseUrl + "/myAssets/myAccount");
         // Cast WebDriver to JavascriptExecutor
         JavascriptExecutor js = (JavascriptExecutor) driver;
 
@@ -277,8 +283,8 @@ public class BuyerAccountSteps {
 
     @Given("buyer retrieve the new buyer account balance after partially terminated")
     public void buyer_retrieve_the_new_buyer_account_balance_after_partially_terminated() {
-        driver.get("http://localhost:5173/myAssets/myAccount");
-
+        //driver.get("https://test.exchange.xeptagon.com/myAssets/myAccount");
+        driver.get(baseUrl + "/myAssets/myAccount");
         // Cast WebDriver to JavascriptExecutor
         JavascriptExecutor js = (JavascriptExecutor) driver;
 

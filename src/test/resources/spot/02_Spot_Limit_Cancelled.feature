@@ -11,8 +11,8 @@ Feature: Seller Spot Limit Full Filled Order Placement and Cancellation
     Then user is navigate to market page
 #    And close the browser
     Examples:
-      | email | password |
-      | shehans+EX2@xeptagon.com | EX2@xeptagon.coM |
+      | email                    | password            |
+      | seller.account.email      | seller.account.password |
 
   Scenario Outline: Validate seller account balance before placing limit sell order
     Given seller navigate to the account page
@@ -21,7 +21,6 @@ Feature: Seller Spot Limit Full Filled Order Placement and Cancellation
     Examples:
       | carbonCredit  |
       | CAR.088       |
-
 
   Scenario Outline: Place a Limit Sell Order
     Given the seller navigates to the spot order placement page "<carbonCredit>"

@@ -1,7 +1,6 @@
 package StepDefinitions;
 
 import BaseClasses.Base;
-import CommonClasses.DriverManager;
 import POM.LoginPage;
 import POM.MarketPage;
 import com.aventstack.extentreports.Status;
@@ -25,7 +24,10 @@ public class LoginSteps extends Base {
     @Given("user is on login")
     public void user_is_on_login() {
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(30));
-        driver.get("http://localhost:5173/signIn");
+//        driver.get("https://test.exchange.xeptagon.com/signIn");
+
+        String baseUrl = ConfigReader.get("base.url");
+        driver.get(baseUrl + "/signIn");
 
         login = new LoginPage(driver);
         logReport("Spot Limit Feature", Status.INFO, "User navigate to the login page", false);
@@ -33,8 +35,11 @@ public class LoginSteps extends Base {
 
     @When("user enter valid {string} and {string}")
     public void user_enter_valid_email_and_pw(String email, String password) {
-        login.enterEmail(email);
-        login.enterPassword(password);
+        String emailKey = ConfigReader.get(email);
+        String passwordKey = ConfigReader.get(password);
+
+        login.enterEmail(emailKey);
+        login.enterPassword(passwordKey);
         logReport("Spot Limit Feature", Status.INFO, "User enter valid email and password", false);
     }
 

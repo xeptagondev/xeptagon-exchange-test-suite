@@ -1,13 +1,13 @@
 package POM;
 
-import CommonClasses.DriverManager;
+import BaseClasses.Base;
 import io.cucumber.java.Before;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
-public class LoginPage {
+public class LoginPage extends Base {
     private WebDriver driver;
 
     @Before

@@ -1,6 +1,8 @@
 package POM;
 
+import BaseClasses.Base;
 import io.cucumber.java.en.But;
+import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -10,9 +12,11 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
 import java.util.List;
+import java.util.prefs.BackingStoreException;
 
-public class SpotPage {
+public class SpotPage extends Base {
 
+    private final WebDriverWait wait;
     private WebDriver driver;
 
 //    @Before
@@ -22,6 +26,7 @@ public class SpotPage {
 
     public SpotPage(WebDriver driver) {
         this.driver = driver;
+        this.wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         PageFactory.initElements(driver, this);
     }
 
@@ -66,22 +71,69 @@ public class SpotPage {
         limitOrderType.click();
     }
 
+//    public void enterBuyPrice(String price) {
+//        wait.until(ExpectedConditions.elementToBeClickable(buyPriceInput)); // Wait for element to be clickable
+//        buyPriceInput.click();
+////        buyPriceInput.clear();
+//        buyPriceInput.sendKeys(price);
+//    }
+//
+//    public void enterBuyQuantity(String quantity) {
+//        wait.until(ExpectedConditions.elementToBeClickable(buyQuantityInput)); // Wait for element to be clickable
+//        buyQuantityInput.click();
+////        buyQuantityInput.clear();
+//        buyQuantityInput.sendKeys(quantity);
+//    }
+//
+//    public void enterSellPrice(String price) {
+//        wait.until(ExpectedConditions.elementToBeClickable(sellPriceInput));
+//        sellPriceInput.click();
+////        sellPriceInput.clear();
+//        sellPriceInput.sendKeys(price);
+//    }
+//
+//    public void enterSellQuantity(String quantity) {
+//        wait.until(ExpectedConditions.elementToBeClickable(sellQuantityInput));
+//        sellQuantityInput.click();
+////        sellQuantityInput.clear();
+//        sellQuantityInput.sendKeys(quantity);
+//    }
+
+    // Retry click logic to handle stale elements
+    public void retryingClick(WebElement element) {
+        int attempts = 0;
+        while (attempts < 2) {
+            try {
+                wait.until(ExpectedConditions.elementToBeClickable(element)); // Wait for the element to be clickable
+                element.click();  // Click the element
+                break;  // Exit the loop if the click is successful
+            } catch (StaleElementReferenceException e) {
+                System.out.println("Attempt " + (attempts + 1) + ": Retrying click due to stale element.");
+            }
+            attempts++;
+        }
+    }
+
     public void enterBuyPrice(String price) {
+        retryingClick(buyPriceInput);
         buyPriceInput.clear();
         buyPriceInput.sendKeys(price);
     }
 
     public void enterBuyQuantity(String quantity) {
+        retryingClick(buyQuantityInput);
         buyQuantityInput.clear();
         buyQuantityInput.sendKeys(quantity);
     }
 
     public void enterSellPrice(String price) {
+        retryingClick(sellPriceInput);
         sellPriceInput.clear();
         sellPriceInput.sendKeys(price);
     }
 
     public void enterSellQuantity(String quantity) {
+        retryingClick(sellQuantityInput);
         sellQuantityInput.clear();
         sellQuantityInput.sendKeys(quantity);
     }
@@ -142,5 +194,7 @@ public class SpotPage {
     public String getInfoNotificationText() {
         return infoNotification.getText();
     }
+
+
 
 }

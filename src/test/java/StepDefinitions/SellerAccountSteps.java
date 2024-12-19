@@ -1,9 +1,6 @@
 package StepDefinitions;
 
 import BaseClasses.Base;
-import CommonClasses.DriverManager;
-import CommonClasses.ScenarioContext;
-
 import POM.LoginPage;
 import POM.MarketPage;
 import POM.MyAccountPage;
@@ -51,7 +48,7 @@ public class SellerAccountSteps extends Base {
     public Double totalBuyAmount;
     public Double remainBlockedAmount;
     // ExtentTest for logging test steps
-
+    String baseUrl = ConfigReader.get("base.url");
 
 //    // Constructor or dependency injection for initial account values
     public SellerAccountSteps() {
@@ -75,9 +72,15 @@ public class SellerAccountSteps extends Base {
 
     @Given("seller logs into their account")
     public void seller_login_into_seller_account() {
-        driver.get("http://localhost:5173/signIn");
-        loginPage.enterEmail("shehans+EX2@xeptagon.com");  // Use valid email
-        loginPage.enterPassword("EX2@xeptagon.coM");         // Use valid password
+        driver.get("https://test.exchange.xeptagon.com/signIn");
+        driver.get(baseUrl + "/signIn");
+
+        String sellerEmail = ConfigReader.get("seller.account.email");
+        String sellerPassword = ConfigReader.get("seller.account.password");
+
+
+        loginPage.enterEmail(sellerEmail);  // Use valid email
+        loginPage.enterPassword(sellerPassword);         // Use valid password
         loginPage.clickLoginButton();
         marketPage.is_load_market_page();
 
@@ -89,13 +92,14 @@ public class SellerAccountSteps extends Base {
     @When("seller navigate to the account page")
     public void seller_navigate_to_the_account_page() {
         // Use the provided account page URL
-        driver.get("http://localhost:5173/myAssets/myAccount");
+      //  driver.get("https://test.exchange.xeptagon.com/myAssets/myAccount");
+        driver.get(baseUrl + "/myAssets/myAccount");
         logReport("Spot Limit Feature", Status.PASS, "seller navigate to the account page", true);
     }
 
     @When("seller retrieves the before account balances")
     public void seller_retrieves_the_before_account_balances() {
-        driver.get("http://localhost:5173/myAssets/myAccount");
+        //driver.get("https://test.exchange.xeptagon.com/myAssets/myAccount");
 
         // Retrieve balance values before any action
         accountBalances.put("grossBalance", myAccountPage.getGrossBalance());
@@ -119,7 +123,9 @@ public class SellerAccountSteps extends Base {
 
     @Given("seller retrieve the after account balance")
     public void seller_retrieve_the_after_account_balance() {
-        driver.get("http://localhost:5173/myAssets/myAccount");
+       // driver.get("https://test.exchange.xeptagon.com/myAssets/myAccount");
+
+        driver.get(baseUrl + "/myAssets/myAccount");
 
         // Retrieve balance values after the buy order is placed
         newAccountBalances.put("grossBalance", myAccountPage.getGrossBalance());

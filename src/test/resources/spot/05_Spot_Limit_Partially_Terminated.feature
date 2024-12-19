@@ -16,8 +16,8 @@ Feature: Seller Spot Limit Partially Filled Order Placement and Terminated
     Then user is navigate to market page
 #    And close the browser
     Examples:
-      | email | password |
-      | shehans+EX2@xeptagon.com | EX2@xeptagon.coM |
+      | email                    | password            |
+      | seller.account.email      | seller.account.password |
 
   Scenario Outline: Validate seller account balance before placing limit sell order
     Given seller navigate to the account page
@@ -44,10 +44,9 @@ Feature: Seller Spot Limit Partially Filled Order Placement and Terminated
     When user enter valid "<email>" and "<password>"
     And clicks on Login Button
     Then user is navigate to market page
-
     Examples:
       | email                    | password            |
-      | shehans+EX1@xeptagon.com | EX1@xeptagon.coM    |
+      | buyer.account.email      | buyer.account.password |
 
   Scenario Outline: Validate account buyer account balance before placing limit buy order
     Given buyer navigate to the account page
